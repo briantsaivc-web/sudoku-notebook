@@ -1,0 +1,14 @@
+{
+  "name": "數獨筆記本 Sudoku Notebook",
+  "short_name": "數獨筆記本",
+  "description": "極簡、快速的網頁版數獨,三種難度各 100 題,內建鉛筆筆記與提示功能。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EEE3CC",
+  "theme_color": "#EEE3CC",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

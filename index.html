@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#EEE3CC" />
+<title>數獨筆記本 Sudoku Notebook</title>
+<meta name="description" content="極簡、快速的網頁版數獨,三種難度各 100 題,內建鉛筆筆記與提示功能。" />
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<div id="app" class="app">
+
+  <!-- ===================== HOME SCREEN ===================== -->
+  <section id="screen-home" class="screen" data-screen="home">
+    <header class="home-header">
+      <h1 class="brand">數獨筆記本</h1>
+      <button id="btn-theme" class="icon-btn" title="外觀風格" aria-label="外觀風格">🎨</button>
+    </header>
+
+    <div id="resume-banner" class="resume-banner" hidden>
+      <div>
+        <strong id="resume-title">繼續上次的題目</strong>
+        <span id="resume-sub" class="muted"></span>
+      </div>
+      <button id="btn-resume" class="btn btn-primary">繼續</button>
+    </div>
+
+    <div class="level-switch" role="tablist" aria-label="難度">
+      <button class="level-btn" data-level="easy" role="tab">簡單</button>
+      <button class="level-btn" data-level="medium" role="tab">中等</button>
+      <button class="level-btn" data-level="hard" role="tab">困難</button>
+    </div>
+
+    <div class="level-summary">
+      <span id="level-progress-text">0 / 100 完成</span>
+      <div class="progress-track"><div id="level-progress-fill" class="progress-fill"></div></div>
+    </div>
+
+    <div id="puzzle-grid" class="puzzle-grid" role="grid" aria-label="選題"></div>
+  </section>
+
+  <!-- ===================== GAME SCREEN ===================== -->
+  <section id="screen-game" class="screen" data-screen="game" hidden>
+    <header class="game-header">
+      <button id="btn-back" class="icon-btn" aria-label="返回選單">←</button>
+      <div class="game-title">
+        <span id="game-level-label">中等</span>
+        <span class="dot">·</span>
+        <span id="game-puzzle-label">第 1 關</span>
+      </div>
+      <div class="hud">
+        <button id="btn-timer" class="hud-chip" title="暫停 / 繼續" aria-label="暫停或繼續計時">
+          <span aria-hidden="true">⏱</span><span id="timer-label">00:00</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="game-body">
+      <div class="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="數獨盤面"></div>
+        <div id="pause-overlay" class="board-overlay" hidden>
+          <button id="btn-resume-pause" class="btn btn-primary">▶ 繼續遊戲</button>
+        </div>
+        <div id="win-overlay" class="board-overlay" hidden>
+          <div class="win-card">
+            <div class="win-emoji">🎉</div>
+            <div class="win-title">完成了!</div>
+            <div id="win-time" class="win-time">00:00</div>
+            <div id="win-best" class="muted"></div>
+            <div class="win-actions">
+              <button id="btn-win-menu" class="btn">回選單</button>
+              <button id="btn-win-next" class="btn btn-primary">下一題 →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls-wrap">
+        <div class="toolbar">
+          <button id="btn-undo" class="tool-btn" aria-label="復原">↩<span>復原</span></button>
+          <button id="btn-notes" class="tool-btn" aria-label="筆記模式">✎<span>筆記</span></button>
+          <button id="btn-erase" class="tool-btn" aria-label="清除">⌫<span>清除</span></button>
+          <button id="btn-hint" class="tool-btn" aria-label="提示">💡<span>提示 <span id="hint-count">3</span>/3</span></button>
+        </div>
+        <div id="numpad" class="numpad"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THEME SHEET ===================== -->
+  <div id="theme-sheet" class="sheet" hidden>
+    <div class="sheet-backdrop"></div>
+    <div class="sheet-card">
+      <div class="sheet-title">外觀風格</div>
+      <div class="theme-options" id="theme-options">
+        <button class="theme-opt" data-theme="classic"><span class="swatch" style="background:#2B5FA5"></span>經典簡約</button>
+        <button class="theme-opt" data-theme="paper"><span class="swatch" style="background:#8A6A2E"></span>紙感筆記</button>
+        <button class="theme-opt" data-theme="dark"><span class="swatch" style="background:#5FD9C7"></span>深色極簡</button>
+        <button class="theme-opt" data-theme="soft"><span class="swatch" style="background:#F26B4D"></span>柔和圓角</button>
+      </div>
+      <button id="btn-theme-close" class="btn">關閉</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="data/puzzles.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
