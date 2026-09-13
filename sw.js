@@ -1,7 +1,7 @@
 // Minimal offline cache so the game keeps working without a network
 // connection once it has been opened at least once. Bump CACHE_NAME
 // whenever the shipped files change so old caches are cleared.
-const CACHE_NAME = 'sudoku-notebook-v2-mobile-layout';
+const CACHE_NAME = 'sudoku-notebook-v3-mobile-layout';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -19,9 +19,8 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))))
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith('sudoku-notebook-') && k !== CACHE_NAME).map((k) => caches.delete(k)))).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {

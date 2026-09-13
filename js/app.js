@@ -445,6 +445,15 @@
   showScreen('home');
 
   if ('serviceWorker' in navigator) {
+    // An existing tab must reload its CSS/JS after a new worker takes over.
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!hadController || reloading) return;
+      reloading = true;
+      saveCurrentGame();
+      window.location.reload();
+    });
     window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
   }
 })();
