@@ -278,11 +278,6 @@
       b.addEventListener('click', () => inputDigit(d));
       el.numpad.appendChild(b);
     }
-    const erase = document.createElement('button');
-    erase.className = 'num-btn erase';
-    erase.textContent = '清除';
-    erase.addEventListener('click', eraseSelected);
-    el.numpad.appendChild(erase);
   }
 
   function updateTimerLabel() { el.timerLabel.textContent = fmtTime(currentElapsed()); }
