@@ -4,9 +4,12 @@
 
 [hidden] { display: none !important; }
 *, *::before, *::after { box-sizing: border-box; }
-html, body { height: 100%; }
+html, body { min-height: 100%; }
 body {
   margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
   font-family: 'Manrope', system-ui, -apple-system, sans-serif;
   background: var(--bg-app);
   color: var(--text-given);
@@ -51,7 +54,14 @@ button { font-family: inherit; }
 }
 
 /* ===================== LAYOUT SHELL ===================== */
-.app { max-width: 960px; margin: 0 auto; padding: 16px; min-height: 100vh; }
+.app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  min-height: 100vh;
+  min-height: 100dvh;
+}
 .screen[hidden] { display: none !important; }
 
 .muted { color: var(--text-note); font-size: 0.82rem; }
@@ -169,9 +179,63 @@ button { font-family: inherit; }
 
 /* Narrow layout: stack controls under the board, numpad first, toolbar second */
 @media (max-width: 680px) {
-  .game-body { flex-direction: column; }
-  .controls-wrap { width: 100%; flex-direction: column-reverse; }
-  .numpad { grid-template-columns: repeat(10, 1fr); }
+  .app {
+    padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+      max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+  }
+
+  .game-header { margin-bottom: 10px; }
+  .game-body {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .board-wrap {
+    width: 100%;
+    max-width: min(100%, calc(100dvh - 190px));
+    flex: 0 0 auto;
+    align-self: center;
+  }
+
+  .cell { font-size: clamp(18px, 6.2vw, 30px); }
+  .notes-grid span { font-size: clamp(7px, 2.6vw, 11px); }
+
+  .controls-wrap {
+    width: 100%;
+    flex: 0 0 auto;
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .numpad {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .num-btn {
+    aspect-ratio: auto;
+    min-width: 0;
+    min-height: 44px;
+    font-size: clamp(17px, 5vw, 21px);
+  }
+
+  .toolbar { gap: 6px; }
+  .tool-btn {
+    min-width: 0;
+    min-height: 56px;
+    padding: 6px 2px;
+    gap: 2px;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 380px), (max-height: 620px) {
+  .board-wrap { max-width: min(100%, calc(100dvh - 178px)); }
+  .game-header { margin-bottom: 8px; }
+  .game-body { gap: 8px; }
+  .num-btn { min-height: 40px; }
+  .tool-btn { min-height: 50px; }
 }
 
 /* ===================== THEME SHEET ===================== */
