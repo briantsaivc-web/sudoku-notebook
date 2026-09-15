@@ -24,7 +24,7 @@ button { font-family: inherit; }
   --line-thin:#D6D3CB; --line-thick:#22252B;
   --text-given:#22252B; --text-user:#2B5FA5; --text-note:#9A9C9E;
   --accent:#2B5FA5; --accent-contrast:#FFFFFF;
-  --selected:#DCE8FB; --peer:#F0F3F8; --samevalue:#CFE0F7;
+  --selected:#B9D3F5; --peer:#E7EDF5; --samevalue:#CFDFF5; --text-match:#163F78;
   --error:#C1443C; --success:#2F8F5B; --radius:6px; --board-radius:6px;
 }
 :root[data-theme="paper"] {
@@ -32,7 +32,7 @@ button { font-family: inherit; }
   --line-thin:#C9B994; --line-thick:#4A3B27;
   --text-given:#332A1C; --text-user:#46586B; --text-note:#A08F63;
   --accent:#8A6A2E; --accent-contrast:#FFFBF0;
-  --selected:#F2DE9C; --peer:#F1E7C9; --samevalue:#E7D19C;
+  --selected:#E5C775; --peer:#EDE0BC; --samevalue:#E7D19C; --text-match:#543B12;
   --error:#A6432E; --success:#4C7A4A; --radius:3px; --board-radius:4px;
 }
 :root[data-theme="dark"] {
@@ -40,7 +40,7 @@ button { font-family: inherit; }
   --line-thin:#323744; --line-thick:#59617A;
   --text-given:#E9EBF1; --text-user:#5FD9C7; --text-note:#6B7385;
   --accent:#5FD9C7; --accent-contrast:#0C1210;
-  --selected:#1D3A38; --peer:#1D212A; --samevalue:#1F3E39;
+  --selected:#295951; --peer:#293342; --samevalue:#21483F; --text-match:#ABFFEA;
   --error:#F2685A; --success:#63C685; --radius:6px; --board-radius:6px;
 }
 :root[data-theme="soft"] {
@@ -48,7 +48,7 @@ button { font-family: inherit; }
   --line-thin:#F0D6C6; --line-thick:#6A5480;
   --text-given:#4A3B57; --text-user:#F26B4D; --text-note:#C3AAD6;
   --accent:#F26B4D; --accent-contrast:#FFFFFF;
-  --selected:#FFE1D2; --peer:#FDECE1; --samevalue:#FFD0BB;
+  --selected:#FFBCA4; --peer:#F6E4EC; --samevalue:#FFD0BB; --text-match:#8D3425;
   --error:#C6402F; --success:#3E9A6D; --radius:16px; --board-radius:20px;
 }
 
@@ -136,8 +136,8 @@ button { font-family: inherit; }
 .cell.given { color: var(--text-given); font-weight: 700; }
 .cell.shade { background: var(--bg-cell-shade); }
 .cell.peer { background: var(--peer); }
-.cell.samevalue { background: var(--samevalue); }
-.cell.selected { background: var(--selected); }
+.cell.samevalue { background: var(--samevalue); color: var(--text-match); font-weight: 900; }
+.cell.selected { background: var(--selected); box-shadow: inset 0 0 0 2px var(--accent); }
 .cell.error { color: var(--error); }
 .cell[data-r="2"], .cell[data-r="5"] { border-bottom: 2.5px solid var(--line-thick); }
 .cell[data-c="2"], .cell[data-c="5"] { border-right: 2.5px solid var(--line-thick); }

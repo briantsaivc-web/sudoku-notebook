@@ -306,6 +306,21 @@
   // ---- edit actions ----
   function pushHistory(entry) { game.history.push(entry); el.btnUndo.disabled = false; }
 
+  // Keep a fill and all of its candidate removals in one undo step.
+  function fillCell(i, digit) {
+    const entry = { type: 'fill', index: i, prevValue: game.board[i], prevNotes: game.notes[i], peerNotes: [] };
+    const mask = 1 << (digit - 1);
+    for (const peer of PEERS[i]) {
+      if (!game.board[peer] && (game.notes[peer] & mask)) {
+        entry.peerNotes.push([peer, game.notes[peer]]);
+        game.notes[peer] &= ~mask;
+      }
+    }
+    game.board[i] = digit;
+    game.notes[i] = 0;
+    pushHistory(entry);
+  }
+
   function inputDigit(d) {
     if (!game || game.selected === null || game.finished) return;
     const i = game.selected;
@@ -316,11 +331,9 @@
       game.notes[i] ^= (1 << (d - 1));
       pushHistory({ type: 'notes', index: i, prevNotes });
     } else {
-      const prevValue = game.board[i], prevNotes = game.notes[i];
+      const prevValue = game.board[i];
       if (prevValue === d) return;
-      game.board[i] = d;
-      game.notes[i] = 0;
-      pushHistory({ type: 'fill', index: i, prevValue, prevNotes });
+      fillCell(i, d);
       checkWin();
     }
     renderBoard();
@@ -343,7 +356,11 @@
   function undo() {
     if (!game || game.history.length === 0) return;
     const last = game.history.pop();
-    if (last.type === 'fill') { game.board[last.index] = last.prevValue; game.notes[last.index] = last.prevNotes; }
+    if (last.type === 'fill') {
+      game.board[last.index] = last.prevValue;
+      game.notes[last.index] = last.prevNotes;
+      for (const [index, notes] of (last.peerNotes || [])) game.notes[index] = notes;
+    }
     else if (last.type === 'notes') { game.notes[last.index] = last.prevNotes; }
     el.btnUndo.disabled = game.history.length === 0;
     renderBoard();
@@ -364,8 +381,7 @@
     if (target === -1) target = game.board.findIndex((v, idx) => v === 0 && !game.given[idx]);
     if (target === -1) return;
     game.hintsUsed++;
-    game.board[target] = game.solution[target];
-    game.notes[target] = 0;
+    fillCell(target, game.solution[target]);
     game.selected = target;
     el.hintCount.textContent = (MAX_HINTS - game.hintsUsed);
     el.btnHint.disabled = game.hintsUsed >= MAX_HINTS;

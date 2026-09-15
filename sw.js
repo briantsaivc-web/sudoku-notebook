@@ -1,7 +1,7 @@
 // Minimal offline cache so the game keeps working without a network
 // connection once it has been opened at least once. Bump CACHE_NAME
 // whenever the shipped files change so old caches are cleared.
-const CACHE_NAME = 'sudoku-notebook-v3-mobile-layout';
+const CACHE_NAME = 'sudoku-notebook-v4-peer-notes';
 const CORE_ASSETS = [
   './',
   './index.html',
